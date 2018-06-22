@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family:  Arvo,helvetica-light,verdana ,sans-serif;
+  background: linear-gradient(90deg,#2b5876 0%,#4e4376 100%);
+}
+
+button{
+	cursor: pointer;
+}
