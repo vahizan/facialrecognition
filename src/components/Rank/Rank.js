@@ -1,16 +1,19 @@
-import React from 'react';
+import React , {Component} from 'react';
 
-const Rank = () => {
-	return(
-		<div>
-			<div className="ranking white f3">
-				{'Vahizan your current rank is: '}
+class Rank extends Component {
+	
+	render(){
+		const {name,entries} = this.props;
+		return(
+			<div>
+				<div className="ranking white f3">
+					{name} {'your current rank is... '}
+				</div>
+				<div className=" white f1">
+					{entries}
+				</div>
 			</div>
-			<div className=" white f1">
-				{'#5'}
-			</div>
-		</div>
-	);
+    	);
+	}
 }
-
 export default Rank;
