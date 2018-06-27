@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-
+import {APP_URL} from './../../constants.js';
 class Login extends Component{
 	constructor(props){
 		super(props);
@@ -11,7 +11,7 @@ class Login extends Component{
 	onSubmit = () => {
 		const {onRouteChange,loadUser} = this.props;
 		const {loggingInEmail,loggingInPass} = this.state;
-		fetch("http://localhost:3000/login",{
+		fetch(`${APP_URL}/login`,{
 			method:'post',
 			headers:{'Content-Type': 'application/json' },
 			body:JSON.stringify({

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import {APP_URL} from './constants.js';
 import Navigation from "./components/Navigation/Navigation"
 import Logo from "./components/Logo/Logo"
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm"
@@ -8,7 +9,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Rank from "./components/Rank/Rank";
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
+//import Clarifai from 'clarifai';
 
 const particlesConfig = {
       particles: {
@@ -22,9 +23,9 @@ const particlesConfig = {
       }
 }
 
-const app = new Clarifai.App({
+/*const app = new Clarifai.App({
  apiKey: 'd055746d4fcd4ab18e84046fcede4474'
-});
+});*/
 
 const initialState =  {
       input: '',
@@ -56,13 +57,11 @@ class App extends Component {
         joined
     }});
   }
-  calculateFaceLocation = (data)=> {
+  calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    console.log("clarifaiFace",clarifaiFace);
     const image = document.getElementById("inputImage");
     const width = Number(image.width);
     const height= Number(image.height);
-    console.log(width,height); 
     return {
         topRow: height * clarifaiFace.top_row,
         rightCol: width - (width * clarifaiFace.right_col),
@@ -89,12 +88,19 @@ class App extends Component {
   }
 
   onButtonSubmit = () => {
-    console.log('click');
     this.setState({imageUrl: this.state.input});
-    app.models.predict(Clarifai.FACE_DETECT_MODEL,  this.state.input)
+    console.log('input',this.state.input);
+    fetch(`${APP_URL}/imageurl`,{
+          method:'post',
+          headers: {'Content-Type':'application/json'},
+          body:JSON.stringify({
+            imageUrl: this.state.input
+          })
+    })
+    .then(response => response.json())
     .then(response => {
       if(response){
-        fetch("http://localhost:3000/image",{
+        fetch(`${APP_URL}/image`,{
           method:'put',
           headers: {'Content-Type':'application/json'},
           body:JSON.stringify({
@@ -104,7 +110,6 @@ class App extends Component {
         .then(entries => {
             if(entries){
               this.setState(Object.assign(this.state.user,{entries}));
-              console.log('user',entries);
             }
         });
       }

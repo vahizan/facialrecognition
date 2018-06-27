@@ -5,7 +5,7 @@ const Logo = () => {
 	return(
 		<div className="ma4 mt0 flex">
 			<Tilt className="Tilt br2 shadow-2 " options={{ max : 25 }} style={{ height: 150, width: 150 }} >
-			 <div className="Tilt-inner"> <span>👽</span> </div>
+			 <div className="Tilt-inner"><img src="./../../face-recognition.png" alt="face-recognition logo" /> </div>
 			</Tilt>
 		</div>
 	);

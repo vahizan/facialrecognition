@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import './Register.css';
+import {APP_URL} from './../../constants.js';
 
 class Register extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
+			errorName:'',
+			errorEmail:'',
+			errorPass:'',
+			errorRetypePass:'',
 			registerName:'',
 			registerEmail: '',
 			registerPass: '',
@@ -28,10 +33,20 @@ class Register extends Component{
 	onPhoneInput = (event)=> {
 		this.setState({registerPhone:event.target.value});
 	}
+	validatePhone = (input,fieldErrorName) => {
+		if(!input) return true;
+        
+	}
+	validateField = (input,fieldErrorName) => (validateFn) =>{
+		if(!input){
+			this.setState({ [fieldErrorName]:input});
+		}
+		validateFn(input,fieldErrorName);
+	}
 	onSubmit = () => {
 		const {onRouteChange,loadUser} = this.props;
 		const {registerName,registerPhone,registerEmail,registerPass} = this.state;
-		fetch("http://localhost:3000/register",{
+		fetch(`${APP_URL}/register`,{
 			method:'post',
 			headers:{'Content-Type': 'application/json' },
 			body:JSON.stringify({
