@@ -30,7 +30,7 @@ const particlesConfig = {
 const initialState =  {
       input: '',
       imageUrl: '',
-      box: {},
+      boxes: [],
       route: 'login',
       isLoggedIn: false,
       user:{
@@ -57,22 +57,39 @@ class App extends Component {
         joined
     }});
   }
+
+   boxToPosition = (boundingBox) => (imageWidth,imageHeight) =>{
+    return {
+        topRow: imageHeight * boundingBox.top_row,
+        rightCol: imageWidth - (imageWidth * boundingBox.right_col),
+        bottomRow: imageHeight - ( imageHeight * boundingBox.bottom_row),
+        leftCol: imageWidth * boundingBox.left_col
+    }
+  }
   calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    //set up an empty array to hold all position objects
+    const boxes = [];
+    //get image width and height
     const image = document.getElementById("inputImage");
     const width = Number(image.width);
     const height= Number(image.height);
-    return {
-        topRow: height * clarifaiFace.top_row,
-        rightCol: width - (width * clarifaiFace.right_col),
-        bottomRow: height - ( height * clarifaiFace.bottom_row),
-        leftCol: width * clarifaiFace.left_col
-    }
+    //get array of bounding boxes
+    const clarifaiFaces = data.outputs[0].data.regions;
+    //convert each element to bounding box values Object
+    clarifaiFaces.forEach((face)=>{
+        //get the right bounding box positions obj
+        const boundingBox = face.region_info.bounding_box;
+        //convert box to css top,right,left,bottom box positions
+        const posObj = this.boxToPosition(boundingBox)(width,height);
+        //add obj to array
+        boxes.push(posObj);
+    });
+    return boxes;
   }
 
 
-  faceBounds = (box) =>{
-    this.setState({box});
+  faceBounds = (boxes) =>{
+    this.setState({boxes});
   }
   onInputChange = (event) =>{
     this.setState({input:event.target.value});
@@ -135,7 +152,7 @@ class App extends Component {
               <ImageLinkForm 
                   onButtonSubmit={this.onButtonSubmit}
                   onInputChange={this.onInputChange}/>
-               <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+               <FaceRecognition boxes={this.state.boxes} imageUrl={this.state.imageUrl}/>
             </div>
           : (
             this.state.route === 'login'
