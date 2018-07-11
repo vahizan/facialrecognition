@@ -6,14 +6,14 @@ const Navigation = ({isLoggedIn,onRouteChange}) => {
 		   { isLoggedIn
 		   ?<p 
 				onClick ={()=>{onRouteChange('logout')}}
-				className="w-25 shadow-1 pa3 grow dib f3-ns pr3 underline bg-navy  pointer link white mr4">Sign Out</p>
+				className="w-35 shadow-1 pa3 grow dib f3-ns pr3 underline bg-navy  pointer link white mr4">Sign Out</p>
 		   :<div>
 			<p 
 				onClick ={()=>{onRouteChange('login')}}
-				className="w-25 shadow-1 pa3 grow dib f3-ns pr3 underline bg-navy  pointer link white mr4">Sign In</p>
+				className="w-30 shadow-1 pa3 grow dib f3-ns pr3 underline bg-navy  pointer link white mr4">Sign In</p>
 			<p 
 				onClick ={()=>{onRouteChange('register')}}
-				className="w-25 shadow-1 pa3 grow dib f3-ns pr3 underline bg-navy  pointer link white mr4">Register</p>
+				className="w-40 shadow-1 pa3 grow dib f3-ns pr3 underline bg-navy  pointer link white mr4">Register</p>
 			</div>
 		 }
 		</nav>

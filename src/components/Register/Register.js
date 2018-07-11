@@ -115,7 +115,6 @@ class Register extends Component{
 			        	name="phone"  
 			        	id="phone"/>
 			      </div>
-			      <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox"/> Remember me</label>
 			    </fieldset>
 			    <div className="">
 			      <input 
